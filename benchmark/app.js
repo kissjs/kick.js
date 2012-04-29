@@ -5,12 +5,17 @@ var kick = require('../kick')
 
 var app = module.exports = kick();
 
+app.use(function(req, res, next) {
+    req.hello = 'hello world';
+    next();
+})
+
 app.get('/', function(req, res, next) {
-    res.end('hello world');
+    res.end(req.hello);
 })
 
 app.get('/user/:userid', function(req, res, next) {
-    res.end(req.params.userid);
+    res.end(req.params.userid + req.hello);
 })
 
 setInterval(function(){

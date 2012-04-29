@@ -4,21 +4,21 @@ var express = require('express')
 
 var app = module.exports = express.createServer();
 
-// app.configure('development', function(){
 
-//     app.use(function(req, res, next) {
-//         console.log('dev middleware');
-//         next();
-//     });
+app.use(function(req, res, next) {
+    req.hello = 'hello world';
+    next();
+});
 
-// })
 
 app.get('/', function(req, res, next) {
-    res.end('hello world');
+    res.send();
+    // res.end('hello world');
 })
 
 app.get('/user/:userid', function(req, res, next) {
-    res.end(req.params.userid);
+    res.send();
+    // res.end(req.params.userid + req.hello);
 })
 
 setInterval(function(){
