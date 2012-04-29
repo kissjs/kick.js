@@ -29,7 +29,5 @@ setInterval(function(){
 }, 1000)
 
 if(!module.parent) {
-  http.createServer(function(req, res){
-      app(req, res);
-  }).listen(3000);
+  http.createServer(app).listen(3000);
 }
