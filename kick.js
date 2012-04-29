@@ -45,8 +45,15 @@ module.exports = function(options) {
     ;
 
   var errorHandler = function(err, req, res){
-    console.log('error');
-    console.log(err);
+    if(err) {
+      console.log('error');
+      console.log(err.stack);
+      res.writeHead(500);
+      res.end('Internal server error');
+    } else {
+      res.writeHead(404);
+      res.end('Not found');
+    }
   }
 
   /**
@@ -251,9 +258,11 @@ module.exports = function(options) {
 
     if(middlewares.length == 1) {
       return function(req, res) {
-        req.params = params
+        req.params = params;
         // req, res, next
-        middlewares[0](req, res, errorHandler)
+        middlewares[0](req, res, function(err) {
+            errorHandler(err, req, res);
+        });
       }
     }
 
@@ -266,7 +275,7 @@ module.exports = function(options) {
 
       function next(err) {
         if(err) {
-          return errorHandler(err, req, res, next)
+          return errorHandler(err, req, res, next);
         }
 
         if(index >= middlewares.length) {
