@@ -1,10 +1,20 @@
+/**
+ * @author Gui Lin guileen@gmail.com
+ *
+ */
 var util = require('util');
 
 module.exports = function(options) {
+
+  // handler is function(req, res)
+  // middleware is function(req, res, next)
+
   options = options || {};
   var handlers = {}
     , defines = []
-    , constPaths = []
+    , constHandlers = {}
+    , constDefines = {}
+    , constInited = false
     , baseMiddlewares = []
     , NODE_ENV = process.env.NODE_ENV || 'development'
     , methods = [
@@ -39,6 +49,10 @@ module.exports = function(options) {
     console.log(err);
   }
 
+  /**
+   * main handler
+   *
+   */
   var app = function app(req, res) {
     res.req = req;
 
@@ -47,14 +61,32 @@ module.exports = function(options) {
     req.querystring = pathAndQuery[1];
     var method = req.method;
 
-    (/* handlers[method][path] || */ getHandler(method, path))(req, res);
+    (constHandlers[method + path] || getHandler(method, path))(req, res);
   }
 
+  /**
+   * app.get(path, middleware, ...)
+   * app.post(path, middleware, ...)
+   *
+   * @param {string} path
+   *
+   *    const path: '/user'
+   *    param path: '/user/:userid/edit'
+   *
+   *      you can access req.params.userid as ':userid'
+   *
+   *    regex path: /^\/user-(\d+)$/
+   *
+   *      you can access req.params[1] as '(\d+)'
+   *
+   *
+   */
   ;methods.forEach(function(method) {
+      var METHOD = method.toUpperCase();
       app[method] = function(path) {
         var middlewares = [].slice.call(arguments, 1);
         var define = {
-          method: method.toUpperCase()
+          method: METHOD
         , path: path
         , middlewares: middlewares
         }
@@ -69,13 +101,19 @@ module.exports = function(options) {
           define.regex = new RegExp('^' + regex + '$');
           define.names = names;
         } else {
-          constPaths.push(path);
+          // constHandlers for cache
+          constDefines[METHOD + path] = define;
         }
         defines.push(define);
       }
   })
 
   app.del = app.delete;
+
+  /**
+   * app.all(path, middleware)
+   *
+   */
   app.all = function() {
     var args = [].slice.call(arguments);
     methods.forEach(function(method){
@@ -83,7 +121,10 @@ module.exports = function(options) {
     })
   }
 
-  // all
+  /**
+   * app.use(middleware, ...)
+   *
+   */
   app.use = function() {
     var args = [].slice.call(arguments)
     args.forEach(function(mid) {
@@ -106,26 +147,28 @@ module.exports = function(options) {
   }
 
   // ------------ Routing ----------
-  // handler is function(req, res)
-  // middleware is function(req, res, next)
-
-  // cache handlers
-  function initHandlers() {
-    // baseMiddlewares;
-    staticHandlers;
-    staticHandlers.forEach(function(){
-        method;
-        path;
-        getHandler(method, path)
-    })
-  }
 
   // dynamic handlers
   function getHandler(method, path) {
 
+    // init const
+    if(!constInited) {
+      initConstHandlers();
+      var handler = constHandlers[method + path];
+      if(handler) return handler;
+    }
+
     return makeHandler(getParamsAndMiddlewares(method, path));
   }
 
+  /**
+   * getParamsAndMiddlewares('GET', '/user')
+   *
+   * @return {object}
+   *    params
+   *    middlewares
+   *
+   */
   function getParamsAndMiddlewares(method, path) {
     var middlewares = [], params = [];
     for(var i = 0; i < defines.length; i++) {
@@ -156,7 +199,7 @@ module.exports = function(options) {
 
     if((define.method == '*' || define.method == method)) {
 
-      if(define.regex) {
+      if(define.regex != null) {
         var match = path.match(define.regex);
         var names = define.names;
         if(names && match) for(var i = 0; i < names.length; i++) {
@@ -172,10 +215,39 @@ module.exports = function(options) {
     }
   }
 
+  /**
+   * cache handlers
+   * constHandlers['GET/user'] = getHandler('GET', '/user')
+   *
+   */
+  function initConstHandlers() {
+    // put this at first line prevent circulation call
+    constInited = true;
+
+    for(var name in constDefines) {
+      var define = constDefines[name];
+      constHandlers[name] = getHandler(define.method, define.path);
+    }
+
+    // remove const element from defines, from end to begin
+    for(var i = defines.length - 1; i >= 0; i--) {
+      if(!defines[i].regex) defines.splice(i, 1);
+    }
+
+  }
+
+  /**
+   * makeHandler
+   *
+   * @param {object} options
+   *        params : from path
+   *        middlewares : of match
+   *
+   */
   function makeHandler(options) {
     var params = options.params;
     var middlewares = options.middlewares;
-    middlewares = baseMiddlewares.concat(middlewares)
+    // middlewares = baseMiddlewares.concat(middlewares)
 
     if(middlewares.length == 1) {
       return function(req, res) {
@@ -199,7 +271,8 @@ module.exports = function(options) {
 
         if(index >= middlewares.length) {
           // reach the end
-          return res.end('not found', 404);
+          res.writeHead(404);
+          return res.end('not found');
         }
 
         var middleware = middlewares[index++];
@@ -215,6 +288,7 @@ module.exports = function(options) {
     app.getParamsAndMiddlewares = getParamsAndMiddlewares;
     app.pathMatch = pathMatch;
     app.getHandler = getHandler;
+    app.constHandlers = constHandlers;
   }
 
   return app;
