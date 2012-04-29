@@ -14,16 +14,20 @@ app.get('/', function(req, res, next) {
     res.end(req.hello);
 })
 
-app.get('/user/:userid', function(req, res, next) {
+function paramHandler(req, res, next) {
     res.end(req.params.userid + req.hello);
-})
+}
 
-setInterval(function(){
-  profiler.startProfiling('flow');
-  setTimeout(function(){
-      profiler.stopProfiling('flow');
-  }, 100)
-}, 1000)
+//  30 handlers /user/1-30/:userid'
+for(var i = 1; i <= 30; i++)
+  app.get('/user/' + i + '/:userid', paramHandler);
+
+// setInterval(function(){
+//   profiler.startProfiling('flow');
+//   setTimeout(function(){
+//       profiler.stopProfiling('flow');
+//   }, 100)
+// }, 1000)
 
 if(!module.parent) {
   http.createServer(app).listen(3000);

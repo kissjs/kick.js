@@ -4,7 +4,7 @@ siege()
   .on(3000)
   .for(100000).times
   .get('/')
-  .get('/user/abcdefg')
+  .get('/user/30/abcdefg')
   .attack()
 
 // siege(__dirname + '/app.js')
