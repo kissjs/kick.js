@@ -1,7 +1,7 @@
 kick.js
 =======
 
-expressjs like routing framework
+sinatra style routing framework
 
 example:
 
