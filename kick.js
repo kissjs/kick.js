@@ -247,7 +247,7 @@ module.exports = function(options) {
   function makeHandler(options) {
     var params = options.params;
     var middlewares = options.middlewares;
-    // middlewares = baseMiddlewares.concat(middlewares)
+    middlewares = baseMiddlewares.concat(middlewares)
 
     if(middlewares.length == 1) {
       return function(req, res) {
