@@ -28,18 +28,20 @@ it('should middlewares', function() {
     app.baseMiddlewares.should.include(a).include(b).include(c);
 })
 
-it('should path math', function() {
+it('should get params', function() {
     var obj = app.pathMatch('GET', '/user/abcde', app.defines[2]);
     obj.userid.should.equal('abcde');
 })
 
-it('should get middlewares', function() {
+it('should get params and middlewares', function() {
     var obj = app.getParamsAndMiddlewares('GET', '/');
     obj.middlewares.should.include(index);
     obj.middlewares.should.include(allget);
-})
+});
 
-it('should ', function() {
-    var handler = app.getHandler('GET', '/user/12345');
-    console.log(handler.toString());
+it('should init const handlers', function() {
+    app.getHandler('GET', '/');
+    should.exist(app.constHandlers['GET/']);
+    should.exist(app.constHandlers['POST/login']);
+    app.defines.length.should.equal(2);
 })

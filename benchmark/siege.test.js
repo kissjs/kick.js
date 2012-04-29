@@ -1,7 +1,7 @@
 var siege = require('siege');
 
-siege(__dirname + '/express.js')
-  .on(4000)
+siege()
+  .on(3000)
   .for(10000).times
   .get('/')
   .get('/user/abcdefg')
