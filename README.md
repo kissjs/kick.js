@@ -1,11 +1,9 @@
 kick.js
 =======
 
-expressjs like routing framework
+sinatra style routing framework
 
-benchmark with [siege.js](https://github.com/guileen/siege.js)
-
-simple routing:
+example:
 
     app.use(function(req, res, next) {
             req.hello = 'hello world';
@@ -22,6 +20,8 @@ simple routing:
 
 
 ## benchmark
+
+benchmark with [siege.js](https://github.com/guileen/siege.js) use example code
 
 express:
 

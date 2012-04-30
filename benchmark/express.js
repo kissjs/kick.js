@@ -25,7 +25,5 @@ for(var i = 1; i <= 30; i++)
   app.get('/user/' + i + '/:userid', paramHandler);
 
 if(!module.parent) {
-  http.createServer(function(req, res){
-      app(req, res);
-  }).listen(3000);
+  http.createServer(app).listen(3000);
 }
