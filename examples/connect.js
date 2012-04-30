@@ -4,12 +4,12 @@ var connect = require('connect')
 
 var app = module.exports = kick();
 
-app
-  .use(connect.logger('dev'))
-  .use(connect.logger(':date :method :url - :status :response-time ms'))
-  .use(connect.static(__dirname + '/public'))
-  .use(connect.cookieParser('tobo!'))
-  .use(connect.session());
+app.configure('development', function(){
+    app.use(connect.logger('dev'))
+    app.use(connect.static(__dirname + '/public'))
+    app.use(connect.cookieParser('tobo!'))
+    app.use(connect.session());
+})
 
 app.get('/', function(req, res, next){
     res.writeHead(302, {
