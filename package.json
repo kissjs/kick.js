@@ -1,0 +1,19 @@
+{
+  "author": "Gui Lin <guileen@gmail.com>",
+  "name": "kick",
+  "description": "sinatra style nodejs routing framework",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/guileen/kick.js.git"
+  },
+  "main": "kick.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "siege": "*"
+  },
+  "optionalDependencies": {}
+}
