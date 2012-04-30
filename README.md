@@ -3,19 +3,22 @@ kick.js
 
 sinatra style routing framework
 
-    app.use(function(req, res, next) {
-            req.hello = 'hello world';
-            next();
-    })
+```js
+var app = kick();
 
-    app.get('/', function(req, res, next) {
-        res.end(req.hello);
-    })
+app.use(function(req, res, next) {
+    req.hello = 'hello world';
+    next();
+})
 
-    app.get('/user/:userid', function(req, res, next) {
-        res.end(req.params.userid + req.hello);
-    })
+app.get('/', function(req, res, next) {
+    res.end(req.hello);
+})
 
+app.get('/user/:userid', function(req, res, next) {
+    res.end(req.params.userid + req.hello);
+})
+```
 
 ## benchmark
 
@@ -54,34 +57,41 @@ kick example [[code](https://github.com/guileen/kick.js/blob/master/benchmark/ap
 ### app.configure(env, fn)
 ### app.use(middleware, ...)
 
-    app.configure('development', function(){
-        app.use(connect.logger('dev'))
-        app.use(connect.static(__dirname + '/public'))
-        app.use(connect.cookieParser('tobo!'))
-        app.use(connect.session());
-    });
+```js
+app.configure('development', function(){
+    app.use(connect.logger('dev'))
+    app.use(connect.static(__dirname + '/public'))
+    app.use(connect.cookieParser('tobo!'))
+    app.use(connect.session());
+});
+```
 
 ### app.get(path, middleware, ...)
 
 
 Constant routing, O(1)
 
-    app.get('/about', routes.about);
-
+```js
+app.get('/about', routes.about);
+```
 
 Param routing, O(N)
 
-    app.get('/user/:userid', function(req, res, next) {
-        res.end(req.params.userid);
-    });
+```js
+app.get('/user/:userid', function(req, res, next) {
+    res.end(req.params.userid);
+});
+```
 
 Above will match `/user/123` and `req.params.userid` is `123`
 
 Regular expression routing, O(N)
 
-    app.get(/^\/user-(\d+)$/, function(req, res, next) {
-        res.end(req.params[1])
-    });
+```js
+app.get(/^\/user-(\d+)$/, function(req, res, next) {
+    res.end(req.params[1])
+});
+```
 
 Above will match `/user-123` and `req.params[1]` is `123`
 
