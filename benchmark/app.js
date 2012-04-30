@@ -1,5 +1,5 @@
 var kick = require('../kick')
-  , profiler = require('v8-profiler')
+  // , profiler = require('v8-profiler')
   , http = require('http');
 
 

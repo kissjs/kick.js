@@ -12,7 +12,6 @@
  */
 
 var connect = require('connect');
-var profiler = require('v8-profiler');
 var http = require('http');
 
 var app = module.exports = connect();
@@ -21,22 +20,20 @@ app.use(function(req, res, next) {
   next();
 });
 
+function paramHandler(req, res, next) {
+    res.end(req.params.userid + req.hello);
+}
+
 app.use(connect.router(function(app) {
   app.get('/', function(req, res, next) {
     res.end(req.hello);
   });
 
-  app.get('/user/:userid', function(req, res, next) {
-    res.end(req.params.userid + req.hello);
-  });
-}));
+  //  30 handlers /user/1-30/:userid'
+  for(var i = 1; i <= 30; i++)
+    app.get('/user/' + i + '/:userid', paramHandler);
 
-setInterval(function() {
-  profiler.startProfiling('flow');
-  setTimeout(function() {
-    profiler.stopProfiling('flow');
-  }, 100);
-}, 1000);
+}));
 
 if (!module.parent) {
   app.listen(3000);
