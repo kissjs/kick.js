@@ -3,6 +3,8 @@ kick.js
 
 sinatra style routing framework
 
+    var app = kick();
+
     app.use(function(req, res, next) {
             req.hello = 'hello world';
             next();
