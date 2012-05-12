@@ -7,13 +7,11 @@
     "type": "git",
     "url": "git://github.com/guileen/kick.js.git"
   },
-  "main": "kick.js",
+  "main": "lib/kick.js",
   "scripts": {
     "test": "mocha"
   },
   "dependencies": {},
-  "devDependencies": {
-    "siege": "*"
-  },
+  "devDependencies": {},
   "optionalDependencies": {}
 }

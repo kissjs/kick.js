@@ -1,6 +1,6 @@
 var connect = require('connect')
   , http = require('http')
-  , kick = require('../kick');
+  , kick = require('../lib/kick');
 
 var app = module.exports = kick();
 
