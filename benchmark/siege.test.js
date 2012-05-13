@@ -2,8 +2,10 @@ var siege = require('siege');
 
 siege()
   .on(3000)
+  .concurrent(20)
   .for(100000).times
   .get('/')
+  .get('/redis')
   .get('/user/30/abcdefg')
   .attack()
 
