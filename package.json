@@ -2,7 +2,7 @@
   "author": "Gui Lin <guileen@gmail.com>",
   "name": "kick",
   "description": "sinatra style nodejs routing framework",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "repository": {
     "type": "git",
     "url": "git://github.com/guileen/kick.js.git"
