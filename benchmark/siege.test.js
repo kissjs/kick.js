@@ -3,10 +3,10 @@ var siege = require('siege');
 siege()
   .on(3000)
   .concurrent(20)
-  .for(100000).times
+  .for(10000).times
   .get('/')
   .get('/redis')
-  .get('/user/30/abcdefg')
+  .get('/user/30/abcde/efg')
   .attack()
 
 // siege(__dirname + '/app.js')

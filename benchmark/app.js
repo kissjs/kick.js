@@ -28,7 +28,7 @@ function paramHandler(req, res, next) {
 
 //  30 handlers /user/1-30/:userid'
 for(var i = 1; i <= 30; i++)
-  app.get('/user/' + i + '/:userid', paramHandler);
+  app.get('/user/' + i + '/:userid/:itemid', paramHandler);
 
 // setInterval(function(){
 //   profiler.startProfiling('flow');
