@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "mime": "*"
+  , "connect": "2.x"
   , "crc": "*"
   },
   "devDependencies": {},
