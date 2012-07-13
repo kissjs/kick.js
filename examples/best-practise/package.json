@@ -1,0 +1,21 @@
+{
+  "author": "Gui Lin <guileen@gmail.com>",
+  "name": "nowall-site",
+  "version": "0.0.1",
+  "dependencies": {
+    "kick": "0.1.x",
+    "connect": "2.x",
+    "jade": "*",
+    "myconsole": "*",
+    "pg": "*",
+    "hiredis": "*",
+    "redis": "*",
+    "connect-redis": "*",
+    "connect-less": "*"
+  },
+  "devDependencies": {},
+  "optionalDependencies": {},
+  "engines": {
+    "node": ">=0.6"
+  }
+}
