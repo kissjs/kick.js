@@ -9,15 +9,19 @@
   },
   "main": "lib/kick.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "dependencies": {
-    "mime": "*"
-  , "connect": "2.x"
-  , "crc": "*"
-  , "fresh": "0.1.0"
-  , "send": "0.0.3"
+    "mime": "*",
+    "connect": "3.6.2",
+    "crc": "*",
+    "fresh": "0.1.0",
+    "send": "0.0.3",
+    "snyk": "^1.34.3"
   },
   "devDependencies": {},
-  "optionalDependencies": {}
+  "optionalDependencies": {},
+  "snyk": true
 }
