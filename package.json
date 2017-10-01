@@ -15,10 +15,10 @@
   },
   "dependencies": {
     "mime": "*",
-    "connect": "3.6.2",
+    "connect": "3.6.5",
     "crc": "*",
-    "fresh": "0.1.0",
-    "send": "0.0.3",
+    "fresh": "0.5.2",
+    "send": "0.16.0",
     "snyk": "^1.34.3"
   },
   "devDependencies": {},
