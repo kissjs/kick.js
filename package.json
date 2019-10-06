@@ -19,7 +19,7 @@
     "crc": "*",
     "fresh": "0.1.0",
     "send": "0.0.3",
-    "snyk": "^1.34.3"
+    "snyk": "^1.231.0"
   },
   "devDependencies": {},
   "optionalDependencies": {},
